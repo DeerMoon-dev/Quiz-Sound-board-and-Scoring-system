@@ -1,3 +1,11 @@
+# netlify.toml
 [build]
-  command = "npm run build"
-  publish = "build"
+  # optional base directory (relative path) if your app lives in a subfolder
+  # base = "subfolder"
+  publish = "dist"      # or "build" or "public" — set to your build output folder
+  command = "npm run build"  # or the build command your project uses
+
+  [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
