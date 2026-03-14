@@ -1,4 +1,4 @@
 [build]
-  base = ""            # set to your subdirectory if your project is not at repo root, otherwise ""
-  publish = "dist"     # or "build" / the folder your build outputs
-  command = "npm run build"
+  command = "cd frontend && npm ci && npm run build"
+  publish = "frontend/dist"
+  
