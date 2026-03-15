@@ -40,7 +40,8 @@ app.get('/api/scores', async (req, res) => {
         const doc = await getScoresDoc();
         res.json({ scores: doc.scores });
     } catch (err) {
-        res.status(500).json({ error: 'Could not fetch scores' });
+        console.error("GET /api/scores error:", err);
+        res.status(500).json({ error: 'Could not fetch scores', details: err.message });
     }
 });
 
@@ -53,7 +54,8 @@ app.post('/api/scores', async (req, res) => {
         await doc.save();
         res.json({ success: true, scores: doc.scores });
     } catch (err) {
-        res.status(500).json({ error: 'Could not save scores' });
+        console.error("POST /api/scores error:", err);
+        res.status(500).json({ error: 'Could not save scores', details: err.message });
     }
 });
 
