@@ -99,6 +99,36 @@
                 animation: shake 0.4s ease-in-out infinite;
             }
 
+            .timer-bar-container {
+                width: 100%;
+                height: 12px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 6px;
+                margin-top: 10px;
+                overflow: hidden;
+                border: 1px solid var(--border);
+            }
+
+            .timer-bar {
+                height: 100%;
+                width: 100%;
+                background: var(--accent-gold);
+                transition:
+                    width 1s linear,
+                    background 0.3s;
+                box-shadow: 0 0 10px rgba(245, 200, 66, 0.2);
+            }
+
+            .timer-bar.warning {
+                background: #e67e22;
+                box-shadow: 0 0 10px rgba(230, 126, 34, 0.2);
+            }
+
+            .timer-bar.danger {
+                background: var(--accent-red);
+                box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+            }
+
             @keyframes shake {
                 0%,
                 100% {
@@ -370,6 +400,9 @@
                 <!-- Timer -->
                 <div class="timer-section">
                     <div class="timer-display" id="timerDisplay">00:30</div>
+                    <div class="timer-bar-container">
+                        <div class="timer-bar" id="timerBar"></div>
+                    </div>
                     <div class="timer-controls">
                         <button class="timer-preset" onclick="setTimer(15)">
                             15s
@@ -610,9 +643,20 @@
                 const el = document.getElementById("timerDisplay");
                 el.textContent = m + ":" + s;
                 el.className = "timer-display";
+
                 const pct = timerSeconds / timerMax;
                 if (pct <= 0.15) el.classList.add("danger");
                 else if (pct <= 0.35) el.classList.add("warning");
+
+                // Update UI bar
+                const bar = document.getElementById("timerBar");
+                if (bar) {
+                    const pctVal = pct * 100;
+                    bar.style.width = pctVal + "%";
+                    bar.classList.remove("warning", "danger");
+                    if (pctVal <= 15) bar.classList.add("danger");
+                    else if (pctVal <= 35) bar.classList.add("warning");
+                }
 
                 updatePopup();
             }
@@ -621,6 +665,16 @@
                 if (timerRunning) return;
                 timerSeconds = secs;
                 timerMax = secs;
+                // Temporarily disable transition when resetting/setting
+                const bar = document.getElementById("timerBar");
+                if (bar) {
+                    bar.style.transition = "none";
+                    setTimeout(() => {
+                        if (bar)
+                            bar.style.transition =
+                                "width 1s linear, background 0.3s";
+                    }, 50);
+                }
                 updateTimerDisplay();
             }
 
@@ -688,7 +742,7 @@
                     if (timerSeconds <= 0) return;
 
                     playSound("whoosh");
-                    openPopup();
+                    // openPopup(); // Removed automatic popup
 
                     timerRunning = true;
                     document.getElementById("startStopBtn").textContent =
@@ -697,7 +751,7 @@
                     timerInterval = setInterval(() => {
                         timerSeconds--;
                         updateTimerDisplay();
-                        if (timerSeconds <= 12 && timerSeconds > 5) {
+                        if (timerSeconds <= 10 && timerSeconds > 0) {
                             playSound("heartbeat");
                         }
                         if (timerSeconds <= 0) {
@@ -717,6 +771,17 @@
                 timerRunning = false;
                 timerSeconds = timerMax;
                 document.getElementById("startStopBtn").textContent = "▶ START";
+
+                const bar = document.getElementById("timerBar");
+                if (bar) {
+                    bar.style.transition = "none";
+                    setTimeout(() => {
+                        if (bar)
+                            bar.style.transition =
+                                "width 1s linear, background 0.3s";
+                    }, 50);
+                }
+
                 updateTimerDisplay();
                 logEvent("Timer reset to " + timerMax + "s");
             }
