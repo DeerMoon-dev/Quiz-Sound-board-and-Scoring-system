@@ -772,8 +772,8 @@ function changeScore(team, delta) {
   const teamName = team === 1 ? 'Team Alpha' : 'Team Bravo';
   logEvent(teamName + ' score → ' + scores[team-1] + (delta > 0 ? ' (+' + delta + ')' : ' (' + delta + ')'));
 
-  if (delta > 0) playSound('');
-  else if (delta < 0) playSound('');
+  if (delta > 0) playSound('correct');
+  else if (delta < 0) playSound('buzzer');
 }
 
 // ---- Question ----
