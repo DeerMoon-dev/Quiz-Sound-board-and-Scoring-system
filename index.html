@@ -635,7 +635,6 @@
                         if (timeLeft <= 0) {
                             clearInterval(timerInterval);
                             timerInterval = null;
-                            playSound("buzzer");
                             logEvent("Time's up!");
                             document.getElementById("startStopBtn").textContent =
                                 "▶ START";
