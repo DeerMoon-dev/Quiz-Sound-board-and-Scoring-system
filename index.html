@@ -397,7 +397,7 @@
             .bottom-timer-bar {
                 height: 100%;
                 width: 100%;
-                background: var(--accent-gold);
+                background: var(--text);
                 transition:
                     width 1s linear,
                     background 0.3s;
@@ -546,24 +546,9 @@
                     </button>
                 </div>
 
-                <!-- Volume -->
-                <div class="volume-bar">
-                    <label>🔊 Volume</label>
-                    <input
-                        type="range"
-                        id="volumeSlider"
-                        min="0"
-                        max="100"
-                        value="80"
-                        oninput="updateVolume(this.value)"
-                    />
-                    <span class="volume-value" id="volDisplay">80%</span>
-                </div>
+               
 
-                <p class="hotkey-hint">
-                    C=Correct | X=Wrong | H=Heartbeat | W=Whoosh |
-                    Space=Start/Stop
-                </p>
+                
             </div>
 
             <div class="right-col">
