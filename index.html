@@ -584,10 +584,10 @@
           timerInterval = setInterval(() => {
             timeLeft--;
             updateTimerUI();
-            if (timeLeft <= 0) {
+            if (timeLeft <= 10) {
               clearInterval(timerInterval);
               timerInterval = null;
-              playSound("buzzer");
+              playSound("heartbeat");
               logEvent("Time's up!");
             }
           }, 1000);
